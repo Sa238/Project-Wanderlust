@@ -34,9 +34,11 @@
     border-radius: 1rem;
     height: 3.1rem;
     padding: 1rem;
-    margin-left: 5rem;
+    margin-left: 16rem;
     display: flex;
     align-items: center;
+    background-color: gainsboro;
+    font-size: 15px;
   }
   
 </style>
@@ -89,12 +91,12 @@
 
      </div>
      
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <div class="row row-cols-lg-6 row-cols-md-3 row-cols-sm-1">
     <% for(let listing of allListings) { %>
       <!-- jab bhi kisi bhi photo me click kre to perticular data show krane k liye anchor tag ka use kiya h -->
     <a href="/listings/<%= listing._id %> " class="listing-link">
     <div class="card col listing-card">
-        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 20rem;">
+        <img src="<%= listing.image.url %>" class="card-img-top" alt="listing_image" style="height: 12rem;">
         <div class="card-img-overlay"></div>
         <div class="card-body">
           <p class="card-text">
