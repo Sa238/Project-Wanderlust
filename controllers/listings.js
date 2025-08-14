@@ -87,3 +87,12 @@ module.exports.deleteListing = async (req, res) => {
     req.flash("success", "listing deleted!");
     res.redirect("/listings");
 };
+
+
+module.exports.index = async (req, res) => {
+    let allListings = await Listing.find({});
+    res.render("listings/index.ejs" , {
+        allListings , 
+        searchQuery: req.query.q || ''
+    });
+};

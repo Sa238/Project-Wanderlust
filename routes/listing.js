@@ -20,18 +20,36 @@ router
  //New Route
  router.get("/new", isLoggedIn ,listingControllers.renderNewForm);
 
-router
-.route("/:id")
+router.route("/:id")
 .get(wrapAsync(listingControllers.showListing))
-.put(isLoggedIn,isOwner , 
-    upload.single("listing[image]"), 
+.put(isLoggedIn,isOwner ,upload.single("listing[image]"), 
     wrapAsync(listingControllers.updateListing))
 .delete(isLoggedIn, isOwner ,
-    wrapAsync(listingControllers.deleteListing)
-);
+    wrapAsync(listingControllers.deleteListing));
 
-    // Edit route
-    router.get("/:id/edit", isLoggedIn, isOwner,  wrapAsync(listingControllers.renderEditForm));
+// Edit route
+router.get("/:id/edit", isLoggedIn, isOwner,  wrapAsync(listingControllers.renderEditForm));
+
+router.get("/search", async(req,res) => {
+    const searchQuery = req.query.q;
+    console.log("Search ======>1", searchQuery);
+    if( !searchQuery) {
+        return res.redirect("/listings");
+    }
+
+     const listings = await Listing.find({
+        $or: [
+            { title: { $regex: searchQuery, $options: 'i' } },
+            { location: { $regex: searchQuery, $options: 'i' } },
+            { description: { $regex: searchQuery, $options: 'i' } }
+        ]
+    });
+    
+    res.render("listings/index", { 
+        allListings: listings,
+        searchQuery: searchQuery 
+    }); 
+})
 
 
-    module.exports = router;
+module.exports = router;

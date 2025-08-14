@@ -17,8 +17,8 @@
                     <td><%= currUser.username %></td>
                     <td><%= currUser.email %></td>
                     <td>@<%= currUser._id %></td>
-                    <td><a href="/profile/edit" class="btn btn-primary px-2 fw-bold">Edit Profile</a></td>
-                    <!-- <td><a data-bs-toggle="modal" data-bs-target="#editProfile" class="btn btn-primary px-2 fw-bold">Edit Profile</a></td> -->
+                    <!-- <td><a href="/profile/edit" class="btn btn-primary px-2 fw-bold">Edit Profile</a></td> -->
+                    <td><a data-bs-toggle="modal" data-bs-target="#editProfile" class="btn btn-primary px-2 fw-bold">Edit Profile</a></td>
                 </tr>
             </tbody>
         </table>
@@ -35,7 +35,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/profile?_method=PUT" method="POST">
+        <form action="/profile/update?_method=PUT" method="POST">
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" value="<%= currUser.username %>" required>

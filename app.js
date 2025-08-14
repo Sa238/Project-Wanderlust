@@ -21,6 +21,7 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 const { regex } = require("./schema.js");
+const authRouter = require("./routes/auth.js");
 
 const dbUrl = process.env.ATLASDB_URL;
 
@@ -78,17 +79,27 @@ main()
     app.use(passport.session());
     passport.use(new LocalStrategy(User.authenticate()));
 
-    passport.serializeUser(User.serializeUser());
-    passport.deserializeUser(User.deserializeUser());
+    passport.serializeUser((user, done) => {
+    done(null, user.id);
+    });
+    passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (err) {
+        done(err, null);
+    }
+    });
 
     app.use((req, res, next) => {
         res.locals.success = req.flash("success");
         res.locals.error = req.flash("error");
         res.locals.currUser = req.user;
+        // res.locals.searchQuery = req.query.q || '';
         next();
     });
 
-
+    app.use("/auth", authRouter);
     app.use("/listings", listingRouter);
     app.use("/listings/:id/reviews", reviewRouter);
     app.use("/", userRouter);

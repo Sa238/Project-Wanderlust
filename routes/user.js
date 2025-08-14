@@ -3,9 +3,9 @@ const router = express.Router();
 const User = require("../models/user.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
+const userController = require("../controllers/users.js");
 const {saveRedirectUrl, isLoggedIn} = require("../middleware.js");
 
-const userController = require("../controllers/users.js");
   
 router
 .route("/signup")
@@ -23,6 +23,12 @@ router.get('/profile', isLoggedIn, userController.renderProfileForm);
 
 router.get('/profile/edit', isLoggedIn, userController.renderEditForm);
 router.put('/profile/update', isLoggedIn, userController.updateUsers);
+
+// user REset Password
+router.get('/forgot-password', userController.renderForgotPasswordForm);
+router.post('/forgot-password', userController.handleForgotPassword);
+router.get('/reset-password/:token', userController.renderResetPasswordForm);
+router.post('/reset-password/:token', userController.handleResetPassword);
 
 
 module.exports = router;

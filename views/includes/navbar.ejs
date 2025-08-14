@@ -1,3 +1,5 @@
+<= const listingControllers = require("../controllers/listings.js"); =>
+<%= layout("/layouts/voilerplate") %>
 <style>
   .btn-search {
     background-color: #fe424d;
@@ -70,8 +72,8 @@
           <a class="nav-link" href="/listings"><b> Explore</b></a>
         </div>
         <div class="navbar-nav ms-auto">
-          <form class="d-flex" role="search">
-            <input class="form-control me-2 search-inp" type="search" placeholder="Search destination" aria-label="Search">
+          <form class="d-flex" role="search" action="/listings/search" method="GET">
+            <input class="form-control me-2 search-inp" type="search" name="q" placeholder="Search destination" aria-label="Search" value="<%= searchQuery || '' %>">
             <button class="btn btn-search" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
           </form>
         </div>
